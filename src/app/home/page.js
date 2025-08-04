@@ -1,29 +1,51 @@
+import NoteDetail from "@/components/NoteDetail";
 import NoteList from "@/components/NoteList";
 import React from "react";
 
 export default function Home() {
   return (
-    <div className="home__container w-full h-screen">
+    <div
+      className="home__container w-full min-h-screen
+    flex flex-col"
+    >
       <div
-        className="home__header w-full p-2 
-      text-center uppercase 
-      bg-white shadow-md"
+        className="home__header w-full h-[70px]
+        flex justify-center items-center
+        text-center uppercase 
+       bg-white shadow-md"
       >
         <h1
-          className="text-4xl font-[federo]
+          className="text-[35px] font-[federo]
         flex items-center justify-center
         cursor-pointer"
         >
           Note App
         </h1>
       </div>
+
       <div
-        className="home__body h-fit w-full
-      flex justify-center p-4"
+        className="home__body w-full
+      flex flex-1 flex-col md:flex-row relative"
       >
-        <NoteList />
+        <div
+          className="note__list w-full
+        flex justify-center p-4"
+        >
+          <NoteList />
+        </div>
+
+        <div
+          className="note__detail 
+          w-full md:max-w-1/2 md:w-[700px] 
+          h-full md:h-fit
+          absolute top-0 right-0 bottom-0
+          md:static
+          py-4 ps-4 z-[999]"
+        >
+          <NoteDetail />
+        </div>
       </div>
-      <div className="add__button">
+      <div className="add__button z-1">
         <button
           className="
         fixed bottom-[20px] right-[20px] p-[10px] group
