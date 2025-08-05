@@ -1,0 +1,21 @@
+{
+    "notes": [
+    {
+      "id": 1,
+      "title": "Lam bai tap",
+      "content": "Lam bai tap mon Xac suat thong ke."
+    },
+    {
+      "id": 2,
+      "title": "Di da banh",
+      "content":
+        "4h chieu san Tan Mai ngay 5/8.\nDa voi fc no name"
+    },
+    {
+      "id": 3,
+      "title": "Lam du an",
+      "content":
+        "Hoan thien du an Note App.\nLam chuc nang xem chi tiet ghi chu."
+    }
+    ]
+}
