@@ -7,7 +7,6 @@ import {
   updateNote,
   deleteNote,
 } from "@/repositories/NoteRepository";
-import AlertBox from "./AlertBox";
 
 export default function NoteForm({
   noteId,
@@ -23,7 +22,7 @@ export default function NoteForm({
   });
   const [result, setResult] = useState({
     status: "View",
-    message: "",
+    message: "On progress...",
   });
   const [isConfirmOpen, setConfirmOpen] = useState(false);
 
@@ -34,7 +33,7 @@ export default function NoteForm({
   }, [noteId]);
 
   function handleChange(e) {
-    setResult({ status: "", message: "" });
+    setResult({ status: "", message: "Loading..." });
     setNoteData({
       ...noteData,
       [e.target.name]: e.target.value,
@@ -57,8 +56,7 @@ export default function NoteForm({
           message: "Add new note successful!",
         });
         onNotesUpdated();
-        setAction("update");
-        setNoteId(res.id);
+        closeForm();
       } catch (error) {
         setResult({
           status: "failed",
@@ -74,17 +72,17 @@ export default function NoteForm({
         await updateNote(noteId, noteData);
         setResult({
           status: "success",
-          message: `Update Note #${noteId} successful!`,
+          message: `Update note #${noteId} successful!`,
         });
         onNotesUpdated();
         setAction("update");
       } catch (error) {
         setResult({
           status: "failed",
-          message: `Update Note #${noteId} failed!`,
+          message: `Update note #${noteId} failed!`,
         });
         console.error(
-          `Update Note #${noteId} failed! Error: `,
+          `Update note #${noteId} failed! Error: `,
           error
         );
       }
@@ -94,11 +92,9 @@ export default function NoteForm({
   async function handleDelete() {
     try {
       await deleteNote(noteId);
-      // alert(`Deleted Note ${noteData.title} successfully!`);
       onNotesUpdated();
       closeForm();
     } catch {
-      // alert(`Delete Note ${noteData.title} failed!`);
       setResult({
         status: "failed",
         message: "Delete note failed!",
@@ -126,21 +122,23 @@ export default function NoteForm({
               className="font-[federo]
         flex items-center text-[25px]"
             >
-              {action === "create" && `New Note`}
+              {action === "create" && `New note`}
               {action === "update" && `Note #${noteId}`}
             </h3>
 
-            {result.status === "success" && (
-              <p className="font-[federo] text-green-600">
-                {result.message}
-              </p>
-            )}
-
-            {result.status === "failed" && (
-              <p className="font-[federo] text-red-600">
-                {result.message}
-              </p>
-            )}
+            <p
+              className={`font-[federo]
+                transition-all duration-300 ease-in-out
+              ${
+                result.status === "success"
+                  ? `text-green-600 text-[20px] opacity-100`
+                  : result.status === "failed"
+                  ? `text-red-600 text-[20px] opacity-100`
+                  : `text-black text-[0px] opacity-0`
+              }`}
+            >
+              {result.message}
+            </p>
           </div>
 
           <button
@@ -202,8 +200,7 @@ export default function NoteForm({
         flex justify-center items-center font-[federo]
         disabled:bg-gray-300 disabled:line-through"
             disabled={
-              Object.keys(noteData).length === 0 ||
-              result.status !== ""
+              noteData.title === "" || result.status !== ""
             }
           >
             Save <i className="bi bi-check2-square"></i>
@@ -218,7 +215,13 @@ export default function NoteForm({
         font-[federo] border-black border-1
         disabled:bg-red-900 disabled:line-through"
               disabled={Object.keys(noteData).length === 0}
-              onClick={() => setConfirmOpen(true)}
+              onClick={() => {
+                setConfirmOpen(true);
+                setResult({
+                  status: "",
+                  message: "Loading...",
+                });
+              }}
             >
               Delete <i className="bi bi-trash"></i>
             </button>
@@ -236,7 +239,7 @@ export default function NoteForm({
             className="col-span-2 text-center text-[25px]
           flex items-center justify-center font-[federo]"
           >
-            {`Delete Note ${noteData.title}?`}
+            {`Delete note ${noteData.title}?`}
           </p>
           <button
             type="button"
@@ -263,13 +266,6 @@ export default function NoteForm({
           </button>
         </div>
       </form>
-
-      {/* <div
-        className="absolute top-0 bottom-0 left-0 right-0
-      bg-amber-50"
-      >
-        <AlertBox />
-      </div> */}
     </div>
   );
 }

@@ -14,7 +14,7 @@ export const getNotes = async () => {
     const res = await axiosClient.get("/");
     return res.data;
   } catch (error) {
-    console.error("Get notes failed! Error: ", error);
+    // console.error("Get notes failed! Error: ", error);
   }
 };
 

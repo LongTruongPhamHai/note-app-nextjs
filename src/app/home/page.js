@@ -17,8 +17,12 @@ export default function Home() {
   }, []);
 
   async function fetchNotes() {
-    const noteList = await getNotes();
-    if (noteList) setNotes(noteList);
+    try {
+      const noteList = await getNotes();
+      if (noteList) setNotes(noteList);
+    } catch (err) {
+      console.error("Fetch notes failed! Error: ", err);
+    }
   }
 
   return (
@@ -27,7 +31,7 @@ export default function Home() {
     flex flex-col"
     >
       <div
-        className="home__header w-full h-[70px]
+        className="home__header w-full
         flex justify-center items-center
         text-center uppercase border-b-1
        bg-white shadow-md z-[999]"
@@ -42,34 +46,42 @@ export default function Home() {
       </div>
 
       <div
-        className="home__body w-full
-        min-h-[calc(100vh-70px)] overflow-hidden 
+        className="home__body w-full 
+        min-h-[calc(100vh-70px)]
         flex flex-1 flex-row relative"
       >
-        <div
-          className="note__list w-full overflow-auto
-        flex justify-center p-4 pb-[70px]"
-        >
-          <NoteList
-            notes={notes}
-            setNoteId={setNoteId}
-            setFormOpen={setFormOpen}
-            setAction={setAction}
-          />
-        </div>
-
+        {notes.length > 0 ? (
+          <div
+            className="note__list w-full overflow-auto
+            flex justify-center p-4"
+          >
+            <NoteList
+              notes={notes}
+              setNoteId={setNoteId}
+              setFormOpen={setFormOpen}
+              setAction={setAction}
+            />
+          </div>
+        ) : (
+          <div
+            className="w-full min-h-full
+        flex items-center justify-center 
+        font-[federo] text-[30px] text-gray-500"
+          >
+            No notes yet!
+          </div>
+        )}
         <div
           className={`absolute top-0 right-0 bottom-0 
                 py-4 z-[998] bg-[var(--background)] h-full 
-                sm:static
-                sm:h-fit flex items-center 
+                sm:static sm:h-fit flex items-center 
                 sm:bg-transparent overflow-hidden
                 transition-discrete duration-500
             ${
               isFormOpen
                 ? `w-full sm:max-w-1/2 
                 sm:w-[700px] ps-4 opacity-100`
-                : `max-w-[0px] p-0 opacity-0`
+                : `w-[0px] p-0 opacity-0`
             }
           `}
         >
