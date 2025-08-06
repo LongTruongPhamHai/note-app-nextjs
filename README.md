@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📝 Ứng dụng Note App
 
-## Getting Started
+Ứng dụng tạo ghi chú Note App.
 
-First, run the development server:
+## 🎥 Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+[![Watch the video](https://img.youtube.com/vi/rQ_YWXL6JG4/0.jpg)](https://youtu.be/rQ_YWXL6JG4)
+
+## ✨ Chức năng
+
+- ➕ Thêm ghi chú
+- 👁️‍🗨️ Xem một/toàn bộ ghi chú
+- ✏️ Chỉnh sửa ghi chú
+- 🗑️ Xóa ghi chú
+
+## 🛠 Công nghệ sử dụng
+
+- **Frontend:** [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Bootstrap Icons](https://icons.getbootstrap.com/)
+- **Backend:** [JSON Server](https://github.com/typicode/json-server)
+
+## ⚡ Hướng dẫn cài đặt và chạy
+
+### 1️⃣ Clone dự án
+
+```
+git clone https://github.com/LongTruongPhamHai/note-app-nextjs.git
+cd note-app-nextjs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2️⃣ Cài đặt và chạy ứng dụng
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+npm install                                       # Cài đặt dependencies
+npm run dev                                       # Chạy frontend (http://localhost:3000)
+json-server --watch src/data/db.json --port 5000  # Chạy backend (http://localhost:5000)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Cấu trúc thư mục
 
-## Learn More
+```
+note-app-nextjs/
+├── .next/
+├── node_modules/
+├── public/
+├── src/
+│   ├── api/
+│   ├── app/
+│   │   ├── home/
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.js
+│   │   └── page.js
+│   │
+│   ├── assets/
+│   ├── components/
+│   │   ├── NoteForm.js
+│   │   └── NoteList.js
+│   │
+│   ├── data/
+│   └── repositories/
+│   
+├── .gitignore
+├── eslint.config.mjs
+├── jsconfig.json
+├── next.config.json
+├── package-lock.json
+├── package.json
+├── postcss.config.json
+└── README.md
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 👤 Tác giả
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Long Trương Phạm Hải** – [GitHub](https://github.com/LongTruongPhamHai)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+📌 *Tham khảo thêm:* [Tài liệu triển khai Next.js](https://nextjs.org/docs/app/building-your-application/deploying)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
