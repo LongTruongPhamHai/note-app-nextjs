@@ -1,29 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import axiosClient from "@/api/axiosClient";
-import {
-  getNotes,
-  getNoteById,
-} from "@/repositories/NoteRepository";
+import React from "react";
 
 export default function NoteList({
+  notes,
   setFormOpen,
   setNoteId,
   setAction,
 }) {
-  const [notes, setNotes] = useState([]);
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  async function fetchNotes() {
-    const noteList = await getNotes();
-    if (noteList) setNotes(noteList);
-  }
-
   function toggleForm(id) {
     setNoteId(id);
     setFormOpen(true);
@@ -32,15 +16,20 @@ export default function NoteList({
 
   return (
     <div className="w-full h-full">
-      {notes ? (
+      {Object.keys(notes).length > 0 ? (
         <div
-          className="w-full
-    columns-1 sm:columns-2 lg:columns-3 gap-4"
+          className={`
+    ${
+      notes.length > 1
+        ? `w-full
+    columns-1 sm:columns-2 lg:columns-3 gap-4`
+        : `flex`
+    }`}
         >
           {notes.map((item, index) => (
             <div
               className="mb-4 w-full break-inside-avoid 
-        bg-white rounded-xl shadow-lg p-2
+        bg-white rounded-xl shadow-lg p-2 border-1
         hover:-translate-y-1 hover:bg-[var(--note-content-bg)] 
         active:-translate-y-1 active:bg-[var(--note-content-bg)] 
         transition-all duration-300 group
@@ -71,7 +60,7 @@ export default function NoteList({
               <div
                 className="note__content 
             text-base whitespace-pre-line
-            bg-[var(--note-content-bg)] p-2
+            bg-[var(--note-content-bg)] p-2 border-1
             transition-all duration-300 ease-in-out
             rounded-md group-hover:bg-white"
               >
@@ -84,9 +73,9 @@ export default function NoteList({
         <div
           className="w-full h-full
         flex items-center justify-center
-        font-[federo] text-[30px]"
+        font-[federo] text-[30px] text-gray-500"
         >
-          No notes!
+          No notes yet!
         </div>
       )}
     </div>

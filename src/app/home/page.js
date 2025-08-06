@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getNotes } from "@/repositories/NoteRepository";
 
 import NoteList from "@/components/NoteList";
 import NoteForm from "@/components/NoteForm";
@@ -9,17 +10,27 @@ export default function Home() {
   const [isFormOpen, setFormOpen] = useState(false);
   const [noteId, setNoteId] = useState("");
   const [action, setAction] = useState("");
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  async function fetchNotes() {
+    const noteList = await getNotes();
+    if (noteList) setNotes(noteList);
+  }
 
   return (
     <div
-      className="home__container w-full min-h-screen
+      className="home__container w-full max-h-screen
     flex flex-col"
     >
       <div
         className="home__header w-full h-[70px]
         flex justify-center items-center
-        text-center uppercase 
-       bg-white shadow-md"
+        text-center uppercase border-b-1
+       bg-white shadow-md z-[999]"
       >
         <h1
           className="text-[35px] font-[federo]
@@ -32,13 +43,15 @@ export default function Home() {
 
       <div
         className="home__body w-full
-      flex flex-1 flex-col md:flex-row relative"
+        min-h-[calc(100vh-70px)] overflow-hidden 
+        flex flex-1 flex-row relative"
       >
         <div
-          className="note__list w-full
-        flex justify-center p-4"
+          className="note__list w-full overflow-auto
+        flex justify-center p-4 pb-[70px]"
         >
           <NoteList
+            notes={notes}
             setNoteId={setNoteId}
             setFormOpen={setFormOpen}
             setAction={setAction}
@@ -46,16 +59,16 @@ export default function Home() {
         </div>
 
         <div
-          className={`note__detail 
-            absolute md:static top-0 right-0 bottom-0 
-                py-4 z-[999] bg-[var(--background)] 
-                h-full md:h-fit flex items-center 
-                md:bg-transparent overflow-hidden
+          className={`absolute top-0 right-0 bottom-0 
+                py-4 z-[998] bg-[var(--background)] h-full 
+                sm:static
+                sm:h-fit flex items-center 
+                sm:bg-transparent overflow-hidden
                 transition-discrete duration-500
             ${
               isFormOpen
-                ? `max-w-full md:max-w-1/2 
-                md:w-[700px] ps-4 opacity-100`
+                ? `w-full sm:max-w-1/2 
+                sm:w-[700px] ps-4 opacity-100`
                 : `max-w-[0px] p-0 opacity-0`
             }
           `}
@@ -63,8 +76,10 @@ export default function Home() {
           <NoteForm
             noteId={noteId}
             action={action}
+            setAction={setAction}
             setNoteId={setNoteId}
             setFormOpen={setFormOpen}
+            onNotesUpdated={fetchNotes}
           />
         </div>
       </div>
