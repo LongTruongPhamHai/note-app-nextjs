@@ -12,6 +12,7 @@
 - 👁️‍🗨️ Xem một/toàn bộ ghi chú
 - ✏️ Chỉnh sửa ghi chú
 - 🗑️ Xóa ghi chú
+- 🌙 Chuyển đổi Dark mode *(mới)*
 
 ## 🛠 Công nghệ sử dụng
 
