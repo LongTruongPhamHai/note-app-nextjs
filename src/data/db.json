@@ -1,30 +1,9 @@
 {
   "notes": [
-  {
-    "id": "fd5b",
-    "title": "Học ReactJS",
-    "content": "Hoàn thành useState và useEffect."
-  },
-  {
-    "id": "a92e",
-    "title": "Làm bài tập Toán",
-    "content": "Ôn tập chương hàm số bậc nhất."
-  },
-  {
-    "id": "c73k",
-    "title": "Đọc sách",
-    "content": "Đọc xong chương 3 cuốn 'Atomic Habits'."
-  },
-  {
-    "id": "d31x",
-    "title": "Tập thể dục",
-    "content": "Chạy bộ 30 phút buổi sáng."
-  },
-  {
-    "id": "e44m",
-    "title": "Viết blog",
-    "content": "Viết bài về kinh nghiệm học tiếng Anh."
-  }
-]
-
+    {
+      "id": "78a0",
+      "title": "Hello",
+      "content": "Hello aaa"
+    }
+  ]
 }

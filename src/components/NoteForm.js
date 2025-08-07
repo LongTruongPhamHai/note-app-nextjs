@@ -11,6 +11,8 @@ import {
 export default function NoteForm({
   noteId,
   action,
+  bgColor,
+  setBgColor,
   setAction,
   setNoteId,
   setFormOpen,
@@ -108,19 +110,21 @@ export default function NoteForm({
     setFormOpen(false);
     setNoteId("");
     setNoteData({ title: "", content: "" });
+    setBgColor("");
   }
 
   return (
     <div
-      className="bg-white outline-1 relative
-      rounded-l-xl p-3 h-fit w-full shadow-lg"
+      className={`outline-[var(--border)] outline-1 
+        relative rounded-l-xl p-3 h-fit w-full
+      bg-[var(--form-bg)] shadow-[var(--form-shadow)]`}
     >
       <form onSubmit={handleSubmit}>
         <div className="flex items-center px-2 py-1">
           <div>
             <h3
               className="font-[federo]
-        flex items-center text-[25px]"
+        flex items-center text-[25px] text-[var(--form-fg)]"
             >
               {action === "create" && `New note`}
               {action === "update" && `Note #${noteId}`}
@@ -145,10 +149,12 @@ export default function NoteForm({
             type="button"
             className="ms-auto mb-auto
           flex items-center justify-center font-[federo]
-          cursor-pointer px-2 py-1 rounded-md border-1
-          bg-transparent hover:bg-black hover:text-white
-          active:bg-black active:text-white gap-2
-          transition-all duration-300 ease-in-out"
+          cursor-pointer px-2 py-1 rounded-md 
+          border-[var(--border)] border-1
+          bg-transparent text-[var(--form-fg)]
+          hover:bg-[var(--form-fg)] hover:text-[var(--form-bg)]
+          active:bg-[var(--form-fg)] active:text-[var(--form-bg)]
+          gap-2 transition-all duration-300 ease-in-out"
             onClick={closeForm}
           >
             Close
@@ -163,18 +169,21 @@ export default function NoteForm({
         <div className="flex flex-col justify-center p-2 pb-0 gap-3">
           <input
             type="text"
-            className="bg-[var(--note-content-bg)]
+            className="bg-[var(--form-ip-bg)] text-[var(--form-fg)]
           p-2 rounded-lg transition-all duration-300 ease-in-out
-          outline-none focus:bg-gray-100 w-full border-1"
+          outline-none focus:bg-[var(--form-ip-focus)] w-full 
+          border-[var(--border)] border-1"
             name="title"
             onChange={handleChange}
             value={noteData.title}
             placeholder="Title"
           />
           <textarea
-            className="resize-none bg-[var(--note-content-bg)]
-          p-2 rounded-lg transition-all duration-300 ease-in-out
-          outline-none focus:bg-gray-100 w-full border-1"
+            className="resize-none p-2 rounded-lg 
+            bg-[var(--form-ip-bg)] text-[var(--form-fg)]
+            transition-all duration-300 ease-in-out
+            outline-none focus:bg-[var(--form-ip-focus)] w-full 
+            border-[var(--border)] border-1"
             cols="30"
             rows="5"
             name="content"
@@ -196,9 +205,11 @@ export default function NoteForm({
             type="submit"
             className="w-full rounded-lg cursor-pointer
         bg-green-400 hover:bg-green-500 active:bg-green-500 
-        p-1 transition-all duration-300 ease-in-out gap-1 border-1
+        p-1 transition-all duration-300 ease-in-out gap-1 
+        border-1 border-[var(--border)]
         flex justify-center items-center font-[federo]
-        disabled:bg-gray-300 disabled:line-through"
+        disabled:bg-[var(--form-btn-dis-bg)] disabled:line-through
+        disabled:text-[var(--form-fg)]"
             disabled={
               noteData.title === "" || result.status !== ""
             }
@@ -237,7 +248,8 @@ export default function NoteForm({
         >
           <p
             className="col-span-2 text-center text-[25px]
-          flex items-center justify-center font-[federo]"
+          flex items-center justify-center font-[federo]
+          text-[var(--form-fg)]"
           >
             {`Delete note ${noteData.title}?`}
           </p>

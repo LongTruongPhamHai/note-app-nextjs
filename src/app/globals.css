@@ -1,18 +1,68 @@
 @import "tailwindcss";
 
 :root {
-  --background: rgb(220, 220, 220);
-  --foreground: #000000;
+  --border: #000;
 
-  --note-bg: white;
-  --note-bg-hover: rgb(202, 202, 202);
-  --note-content-bg: rgb(240, 240, 240);
+  --header-bg: #fff;
+  --header-fg: #000;
+  --header-bg-hover: #000;
+  --header-fg-hover: #fff;
+  --header-shadow: 0 0px 7px 7px rgba(0, 0, 0, 0.316);
 
-  --shadow: rgba(0, 0, 0, 0.316);
+  --body-bg: rgb(220, 220, 220);
+  --body-fg: #8d8d8d;
+  --body-btn-bg: #000;
+  --body-btn-fg: #fff;
+  --body-btn-hover: #3c3c3c;
+
+  --form-bg: #fff;
+  --form-fg: #000;
+  --form-ip-bg: #dedede;
+  --form-ip-focus: rgb(255, 255, 255);
+  --form-btn-dis-bg: #dedede;
+  --form-shadow: 3px 5px 10px 2px rgba(0, 0, 0, 0.316);
+
+  --note-bg: #fff;
+  --note-fg: #000;
+  --note-content-bg: #dedede;
+  --note-bg-hover: #dedede;
+  --note-content-bg-hover: #fff;
+  --note-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.316);
+}
+
+.dark {
+  --border: #fff;
+
+  --header-bg: #000;
+  --header-fg: #fff;
+  --header-bg-hover: #fff;
+  --header-fg-hover: #000;
+  --header-shadow: 0 0px 7px 7px rgba(255, 255, 255, 0.316);
+
+  --body-bg: rgb(27, 27, 27);
+  --body-fg: rgb(98, 98, 98);
+  --body-btn-bg: #fff;
+  --body-btn-fg: #000;
+  --body-btn-hover: #d7d7d7;
+
+  --form-bg: #000;
+  --form-fg: #fff;
+  --form-ip-bg: #242424;
+  --form-ip-focus: #343434;
+  --form-btn-dis-bg: #242424;
+  --form-shadow: 3px 5px 10px 2px rgba(255, 255, 255, 0.316);
+
+  --note-bg: #000;
+  --note-fg: #fff;
+  --note-content-bg: #242424;
+  --note-bg-hover: #242424;
+  --note-content-bg-hover: #000;
+  --note-shadow: 3px 3px 5px 2px rgba(255, 255, 255, 0.316);
 }
 
 * {
   /* border: 1px solid red; */
+  transition: all 0.3s ease-in-out;
 }
 
 body {
