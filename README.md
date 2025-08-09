@@ -8,16 +8,17 @@
 
 ## ✨ Chức năng
 
-- ➕ Thêm ghi chú
-- 👁️‍🗨️ Xem một/toàn bộ ghi chú
-- ✏️ Chỉnh sửa ghi chú
-- 🗑️ Xóa ghi chú
-- 🌙 Chuyển đổi Dark mode *(mới)*
+- ➕ Thêm ghi chú.
+- 👁️‍🗨️ Xem một/toàn bộ ghi chú.
+- ✏️ Chỉnh sửa ghi chú.
+- 🗑️ Xóa ghi chú.
+- 📂 Quản lý ghi chú theo các mục: Notes, Archive, Trash. *(mới)*.
+- 🌙 Chuyển đổi Dark mode *(mới)*.
 
 ## 🛠 Công nghệ sử dụng
 
-- **Frontend:** [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Bootstrap Icons](https://icons.getbootstrap.com/)
-- **Backend:** [JSON Server](https://github.com/typicode/json-server)
+- **Frontend:** [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Bootstrap Icons](https://icons.getbootstrap.com/).
+- **Backend:** [JSON Server](https://github.com/typicode/json-server).
 
 ## ⚡ Hướng dẫn cài đặt và chạy
 
@@ -72,9 +73,9 @@ note-app-nextjs/
 
 ## 👤 Tác giả
 
-- **Long Trương Phạm Hải** – [GitHub](https://github.com/LongTruongPhamHai)
+- **Long Trương Phạm Hải** – [GitHub](https://github.com/LongTruongPhamHai).
 
 ---
 
-📌 *Tham khảo thêm:* [Tài liệu triển khai Next.js](https://nextjs.org/docs/app/building-your-application/deploying)
+📌 *Tham khảo thêm:* [Tài liệu triển khai Next.js](https://nextjs.org/docs/app/building-your-application/deploying).
 
