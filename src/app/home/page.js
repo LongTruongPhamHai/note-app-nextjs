@@ -59,7 +59,7 @@ export default function Home() {
         ) : (
           <h1
             className="text-[30px] font-[federo]
-        flex items-center justify-center 
+        flex items-center justify-center text-nowrap overflow-hidden
         sm:w-full ps-[70px] sm:px-[70px]
         cursor-pointer text-[var(--header-fg)]
         transition-all duration-300 ease-in-out"
