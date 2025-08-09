@@ -7,7 +7,7 @@
   --header-fg: #000;
   --header-bg-hover: #000;
   --header-fg-hover: #fff;
-  --header-shadow: 0 0px 7px 7px rgba(0, 0, 0, 0.316);
+  --header-shadow: 0 0px 5px 5px rgba(0, 0, 0, 0.316);
 
   --body-bg: rgb(220, 220, 220);
   --body-fg: #8d8d8d;
@@ -19,6 +19,7 @@
   --form-fg: #000;
   --form-ip-bg: #dedede;
   --form-ip-focus: rgb(255, 255, 255);
+  --form-placeholder: #a3a3a3;
   --form-btn-dis-bg: #dedede;
   --form-shadow: 3px 5px 10px 2px rgba(0, 0, 0, 0.316);
 
@@ -28,6 +29,13 @@
   --note-bg-hover: #dedede;
   --note-content-bg-hover: #fff;
   --note-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.316);
+
+  --menu-bg: rgb(220, 220, 220);
+  --menu-fg: #000;
+  --menu-btn-bg: #fff;
+  --menu-btn-fg: #000;
+  --menu-btn-hover: #fff;
+  --menu-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.316);
 }
 
 .dark {
@@ -37,7 +45,7 @@
   --header-fg: #fff;
   --header-bg-hover: #fff;
   --header-fg-hover: #000;
-  --header-shadow: 0 0px 7px 7px rgba(255, 255, 255, 0.316);
+  --header-shadow: 0 0px 3px 3px rgba(255, 255, 255, 0.316);
 
   --body-bg: rgb(27, 27, 27);
   --body-fg: rgb(98, 98, 98);
@@ -49,6 +57,7 @@
   --form-fg: #fff;
   --form-ip-bg: #242424;
   --form-ip-focus: #343434;
+  --form-placeholder: #5f5f5f;
   --form-btn-dis-bg: #242424;
   --form-shadow: 3px 5px 10px 2px rgba(255, 255, 255, 0.316);
 
@@ -58,6 +67,13 @@
   --note-bg-hover: #242424;
   --note-content-bg-hover: #000;
   --note-shadow: 3px 3px 5px 2px rgba(255, 255, 255, 0.316);
+
+  --menu-bg: rgb(27, 27, 27);
+  --menu-fg: #fff;
+  --menu-btn-bg: rgb(27, 27, 27);
+  --menu-btn-fg: #fff;
+  --menu-btn-hover: #383838;
+  --menu-shadow: 0px 2px 2px 1px rgba(255, 255, 255, 0.316);
 }
 
 * {
@@ -66,7 +82,5 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-size: 20px;
 }

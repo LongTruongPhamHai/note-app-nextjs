@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getNotes } from "@/repositories/NoteRepository";
+import {
+  getNotes,
+  getNoteByStatus,
+} from "@/repositories/NoteRepository";
 
 import NoteList from "@/components/NoteList";
 import NoteForm from "@/components/NoteForm";
@@ -9,19 +12,22 @@ import MenuBar from "@/components/MenuBar";
 
 export default function Home() {
   const [isFormOpen, setFormOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
   const [noteId, setNoteId] = useState("");
   const [action, setAction] = useState("");
   const [notes, setNotes] = useState([]);
   const [bgColor, setBgColor] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [status, setStatus] = useState("progress");
 
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [status]);
 
   async function fetchNotes() {
     try {
-      const noteList = await getNotes();
+      setNotes([]);
+      const noteList = await getNoteByStatus(status);
       if (noteList) setNotes(noteList);
     } catch (err) {
       console.error("Fetch notes failed! Error: ", err);
@@ -36,21 +42,35 @@ export default function Home() {
     >
       <div
         className={`w-full h-[70px]
-        flex justify-center items-center
-        text-center uppercase z-[9] relative 
-        border-[var(--border)] border-b-1
+        flex items-center
+        z-[9] relative border-[var(--border)] border-b-1
         bg-[var(--header-bg)] shadow-[var(--header-shadow)] 
         transition-all duration-300 ease-in-out`}
       >
-        <h1
-          className="text-[35px] font-[federo]
+        {status === "progress" ? (
+          <h1
+            className="text-[35px] font-[federo]
         flex items-center justify-center
         cursor-pointer text-[var(--header-fg)]
+        transition-all duration-300 ease-in-out
+        uppercase text-center w-full"
+          >
+            Note App
+          </h1>
+        ) : (
+          <h1
+            className="text-[35px] font-[federo]
+        flex items-center justify-center ms-[70px]
+        cursor-pointer text-[var(--header-fg)]
         transition-all duration-300 ease-in-out"
-        >
-          Note App
-        </h1>
+          >
+            {status === "archive"
+              ? "Archive notes"
+              : "Trash"}
+          </h1>
+        )}
 
+        {/* 
         <button
           className="flex justify-center items-center 
           absolute right-[10px] rounded-full w-[35px] h-[35px]
@@ -68,7 +88,18 @@ export default function Home() {
               darkMode ? "bi bi-sun" : "bi bi-moon"
             }`}
           ></i>
-        </button>
+        </button> */}
+
+        <div className="absolute left-[5px] bottom-[0.5px] h-full">
+          <MenuBar
+            isMenuOpen={isMenuOpen}
+            setMenuOpen={setMenuOpen}
+            setFormOpen={setFormOpen}
+            setStatus={setStatus}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+          />
+        </div>
       </div>
 
       <div
@@ -86,6 +117,7 @@ export default function Home() {
             <NoteList
               notes={notes}
               darkMode={darkMode}
+              status={status}
               setNoteId={setNoteId}
               setFormOpen={setFormOpen}
               setAction={setAction}
@@ -104,15 +136,15 @@ export default function Home() {
 
         <div
           className={`absolute top-0 right-0 bottom-0 
-                py-4 z-[998] bg-[var(--body-bg)] h-full 
+                py-4 z-[998] bg-[var(--body-bg)] min-h-fit h-full 
                 sm:static sm:h-fit flex items-center 
-                sm:bg-transparent overflow-hidden
+                sm:bg-transparent
                 transition-discrete duration-500
             ${
               isFormOpen
-                ? `w-full sm:max-w-1/2 
+                ? `w-full sm:max-w-1/2 overflow-auto
                 sm:w-[700px] ps-4 opacity-100`
-                : `w-[0px] p-0 opacity-0`
+                : `w-[0px] p-0 opacity-0 overflow-hidden`
             }
           `}
         >

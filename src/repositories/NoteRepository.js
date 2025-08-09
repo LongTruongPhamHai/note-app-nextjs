@@ -1,4 +1,4 @@
-import axiosClient from "@/api/axiosClient";
+import axiosClient from "@/utils/axiosClient";
 
 export const createNote = async (newNote) => {
   try {
@@ -14,7 +14,18 @@ export const getNotes = async () => {
     const res = await axiosClient.get("/");
     return res.data;
   } catch (error) {
-    // console.error("Get notes failed! Error: ", error);
+    console.error("Get notes failed! Error: ", error);
+  }
+};
+
+export const getNoteByStatus = async (status) => {
+  try {
+    const { data } = await axiosClient.get(`/`);
+    return (
+      data?.filter((note) => note.status === status) || []
+    );
+  } catch (error) {
+    console.error("Get note failed! Error: ", error);
   }
 };
 
@@ -24,6 +35,20 @@ export const getNoteById = async (id) => {
     return res.data;
   } catch (error) {
     console.error("Get note failed! Error: ", error);
+  }
+};
+
+export const searchNoteByTitle = async (title) => {
+  try {
+    const notes = await axiosClient.get(`/`);
+    const result = [];
+    for (n in notes) {
+      if (n.title.toLowerCase().match(title.toLowerCase()))
+        result.push(n);
+    }
+    return result;
+  } catch (error) {
+    console.error("Search note failed! Error: ", error);
   }
 };
 

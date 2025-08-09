@@ -21,12 +21,19 @@ export default function NoteForm({
   const [noteData, setNoteData] = useState({
     title: "",
     content: "",
+    status: "progress",
   });
   const [result, setResult] = useState({
     status: "View",
     message: "On progress...",
   });
   const [isConfirmOpen, setConfirmOpen] = useState(false);
+  const formBtns = [
+    {
+      title: "Save",
+      icon: "bi bi-check2-square",
+    },
+  ];
 
   useEffect(() => {
     if (noteId !== "") {
@@ -91,6 +98,69 @@ export default function NoteForm({
     }
   }
 
+  async function handleArchive(noteId) {
+    const prevStatus = noteData.status;
+    const newStt =
+      noteData.status === "archive"
+        ? "progress"
+        : noteData.status === "trash"
+        ? "progress"
+        : "archive";
+    const newMes =
+      prevStatus === "archive"
+        ? "Unarchive"
+        : prevStatus === "trash"
+        ? "Restore"
+        : "Archive";
+
+    const updatedData = { ...noteData, status: newStt };
+    setNoteData(updatedData);
+
+    try {
+      await updateNote(noteId, updatedData);
+      setResult({
+        status: "success",
+        message: `${newMes} note #${noteId} successful!`,
+      });
+      onNotesUpdated();
+      setAction("update");
+      getNoteData(noteId);
+    } catch (error) {
+      setResult({
+        status: "failed",
+        message: `Update note #${noteId} failed!`,
+      });
+      console.error(
+        `Update note #${noteId} failed! Error: `,
+        error
+      );
+    }
+  }
+
+  async function handleTrash(noteId) {
+    const updatedData = { ...noteData, status: "trash" };
+    setNoteData(updatedData);
+    try {
+      await updateNote(noteId, updatedData);
+      setResult({
+        status: "success",
+        message: `Note #${noteId} has been moved to trash!`,
+      });
+      onNotesUpdated();
+      setAction("update");
+      getNoteData(noteId);
+    } catch (error) {
+      setResult({
+        status: "failed",
+        message: `Update note #${noteId} failed!`,
+      });
+      console.error(
+        `Update note #${noteId} failed! Error: `,
+        error
+      );
+    }
+  }
+
   async function handleDelete() {
     try {
       await deleteNote(noteId);
@@ -109,7 +179,11 @@ export default function NoteForm({
     setConfirmOpen(false);
     setFormOpen(false);
     setNoteId("");
-    setNoteData({ title: "", content: "" });
+    setNoteData({
+      title: "",
+      content: "",
+      status: "progress",
+    });
     setBgColor("");
   }
 
@@ -166,76 +240,112 @@ export default function NoteForm({
           </button>
         </div>
 
-        <div className="flex flex-col justify-center p-2 pb-0 gap-3">
+        <div className="flex flex-col justify-center p-2 pb-0 gap-2">
           <input
             type="text"
             className="bg-[var(--form-ip-bg)] text-[var(--form-fg)]
           p-2 rounded-lg transition-all duration-300 ease-in-out
           outline-none focus:bg-[var(--form-ip-focus)] w-full 
-          border-[var(--border)] border-1"
+          border-[var(--border)] border-1 placeholder:text-[var(--form-placeholder)]"
             name="title"
             onChange={handleChange}
             value={noteData.title}
             placeholder="Title"
+            disabled={noteData.status === "trash"}
           />
           <textarea
-            className="resize-none p-2 rounded-lg 
-            bg-[var(--form-ip-bg)] text-[var(--form-fg)]
-            transition-all duration-300 ease-in-out
+            className="bg-[var(--form-ip-bg)] !text-[var(--form-fg)]
+            resize-none p-2 rounded-lg transition-all duration-300 ease-in-out
             outline-none focus:bg-[var(--form-ip-focus)] w-full 
-            border-[var(--border)] border-1"
+            border-[var(--border)] border-1 placeholder:text-[var(--form-placeholder)]"
             cols="30"
             rows="5"
             name="content"
             onChange={handleChange}
             value={noteData.content}
             placeholder="Content"
+            disabled={noteData.status === "trash"}
           ></textarea>
         </div>
 
         <div
           className={`transition-all duration-300 ease-in-out 
-            overflow-hidden flex gap-2 ${
+            overflow-hidden flex flex-col gap-2 ${
               !isConfirmOpen
                 ? "max-h-96 px-2 py-2 w-full"
                 : "max-h-0 p-0 w-full"
             }`}
         >
-          <button
-            type="submit"
-            className="w-full rounded-lg cursor-pointer
+          {noteData.status !== "trash" && (
+            <button
+              type="submit"
+              className="w-full rounded-lg cursor-pointer
         bg-green-400 hover:bg-green-500 active:bg-green-500 
         p-1 transition-all duration-300 ease-in-out gap-1 
         border-1 border-[var(--border)]
         flex justify-center items-center font-[federo]
         disabled:bg-[var(--form-btn-dis-bg)] disabled:line-through
         disabled:text-[var(--form-fg)]"
-            disabled={
-              noteData.title === "" || result.status !== ""
-            }
-          >
-            Save <i className="bi bi-check2-square"></i>
-          </button>
+              disabled={
+                noteData.title === "" ||
+                result.status !== ""
+              }
+            >
+              Save <i className="bi bi-check2-square"></i>
+            </button>
+          )}
+
           {action === "update" && (
-            <button
-              type="button"
-              className="w-full rounded-lg cursor-pointer gap-1
+            <div className="flex gap-2">
+              <button
+                type="button"
+                className="w-full rounded-lg cursor-pointer
+        bg-amber-300 hover:bg-amber-400 active:bg-amber-400 
+        p-1 transition-all duration-300 ease-in-out gap-1 
+        border-1 border-[var(--border)]
+        flex justify-center items-center font-[federo]
+        disabled:bg-[var(--form-btn-dis-bg)] disabled:line-through
+        disabled:text-[var(--form-fg)]"
+                onClick={() => handleArchive(noteId)}
+              >
+                {noteData.status === "progress"
+                  ? "Archive"
+                  : noteData.status === "archive"
+                  ? "Unarchive"
+                  : "Restore"}
+                <i
+                  className={`bi ${
+                    noteData.status === "trash"
+                      ? "bi-arrow-clockwise"
+                      : "bi-archive"
+                  }`}
+                ></i>
+              </button>
+
+              <button
+                type="button"
+                className="w-full rounded-lg cursor-pointer gap-1
         bg-red-500 hover:bg-red-700 active:bg-red-700
         text-white p-1 transition-all duration-300 
         ease-in-out flex justify-center items-center 
         font-[federo] border-black border-1
         disabled:bg-red-900 disabled:line-through"
-              disabled={Object.keys(noteData).length === 0}
-              onClick={() => {
-                setConfirmOpen(true);
-                setResult({
-                  status: "",
-                  message: "Loading...",
-                });
-              }}
-            >
-              Delete <i className="bi bi-trash"></i>
-            </button>
+                disabled={
+                  Object.keys(noteData).length === 0
+                }
+                onClick={() => {
+                  noteData.status === "trash"
+                    ? setConfirmOpen(true)
+                    : handleTrash(noteId);
+                  setResult({
+                    status: "view",
+                    message: "Loading...",
+                  });
+                }}
+              >
+                Delete <i className={`bi bi-trash`}></i>
+              </button>
+            </div>
           )}
         </div>
 

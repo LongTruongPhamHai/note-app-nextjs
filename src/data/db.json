@@ -1,9 +1,16 @@
 {
   "notes": [
     {
-      "id": "78a0",
-      "title": "Hello",
-      "content": "Hello aaa"
+      "id": "6124",
+      "title": "Unarchive note",
+      "content": "",
+      "status": "progress"
+    },
+    {
+      "id": "765b",
+      "title": "Trash note",
+      "content": "",
+      "status": "progress"
     }
   ]
 }
