@@ -41,15 +41,14 @@ export default function Home() {
     transition-all duration-300 ease-in-out`}
     >
       <div
-        className={`w-full h-[70px]
-        flex items-center
+        className={`w-full h-[70px] flex items-center
         z-[9] relative border-[var(--border)] border-b-1
         bg-[var(--header-bg)] shadow-[var(--header-shadow)] 
         transition-all duration-300 ease-in-out`}
       >
         {status === "progress" ? (
           <h1
-            className="text-[35px] font-[federo]
+            className="text-[30px] font-[federo]
         flex items-center justify-center
         cursor-pointer text-[var(--header-fg)]
         transition-all duration-300 ease-in-out
@@ -59,8 +58,9 @@ export default function Home() {
           </h1>
         ) : (
           <h1
-            className="text-[35px] font-[federo]
-        flex items-center justify-center ms-[70px]
+            className="text-[30px] font-[federo]
+        flex items-center justify-center 
+        sm:w-full ps-[70px] sm:px-[70px]
         cursor-pointer text-[var(--header-fg)]
         transition-all duration-300 ease-in-out"
           >
@@ -70,28 +70,12 @@ export default function Home() {
           </h1>
         )}
 
-        {/* 
-        <button
-          className="flex justify-center items-center 
-          absolute right-[10px] rounded-full w-[35px] h-[35px]
-          bg-[var(--header-bg)] text-[var(--header-fg)]
-          hover:bg-[var(--header-bg-hover)] hover:text-[var(--header-fg-hover)]
-          active:bg-[var(--header-bg-hover)] active:text-[var(--header-fg-hover)]
-          transition-all duration-300 ease-in-out"
-          title={`Switch to ${
-            darkMode ? "light" : "dark"
-          } mode`}
-          onClick={() => setDarkMode((prev) => !prev)}
+        <div
+          className="absolute left-[5px] bottom-[0px]
+        sm:right-[15px] sm:left-auto sm:w-fit sm: h-full"
         >
-          <i
-            className={`text-[20px] ${
-              darkMode ? "bi bi-sun" : "bi bi-moon"
-            }`}
-          ></i>
-        </button> */}
-
-        <div className="absolute left-[5px] bottom-[0.5px] h-full">
           <MenuBar
+            status={status}
             isMenuOpen={isMenuOpen}
             setMenuOpen={setMenuOpen}
             setFormOpen={setFormOpen}
@@ -171,7 +155,7 @@ export default function Home() {
           transition-all duration-300 ease-in-out
           flex items-center justify-center gap-2
           sm:max-w-[50px] sm:overflow-hidden sm:justify-start
-          sm:px-[12.5px] hover:sm:max-w-full 
+          sm:px-[12.5px] hover:sm:max-w-full
           `}
           title="New Note"
           onClick={() => {

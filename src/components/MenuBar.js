@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function MenuBar({
+  status,
   isMenuOpen,
   setMenuOpen,
   setStatus,
@@ -10,6 +11,7 @@ export default function MenuBar({
 }) {
   const menu = [
     {
+      name: "progress",
       title: "Notes",
       icon: "bi bi-journal-bookmark",
       click: () => {
@@ -18,6 +20,7 @@ export default function MenuBar({
       },
     },
     {
+      name: "archive",
       title: "Archive",
       icon: "bi bi-archive",
       click: () => {
@@ -26,6 +29,7 @@ export default function MenuBar({
       },
     },
     {
+      name: "trash",
       title: "Trash",
       icon: `bi bi-trash`,
       click: () => {
@@ -44,15 +48,17 @@ export default function MenuBar({
 
   return (
     <div
-      className={`relative ${darkMode && "dark"} h-full`}
+      className={`relative ${darkMode && "dark"} h-full
+      sm:flex sm:items-center`}
     >
       <button
-        className="text-[30px] h-full p-[10px]
+        className={`text-[30px] h-full p-[10px]
           flex justify-center items-center 
           bg-[var(--header-bg)] text-[var(--header-fg)]
           hover:bg-[var(--header-bg-hover)] hover:text-[var(--header-fg-hover)]
           active:bg-[var(--header-bg-hover)] active:text-[var(--header-fg-hover)]
-          transition-all duration-300 ease-in-out"
+          sm:hidden
+          transition-all duration-300 ease-in-out`}
         title={`${isMenuOpen ? "Open" : "Close"} menu`}
         onClick={() => {
           setMenuOpen((prev) => !prev);
@@ -75,26 +81,35 @@ export default function MenuBar({
             ? "max-h-full p-3 opacity-100"
             : "max-h-0 p-0 opacity-0"
         }
-        `}
+        sm:max-h-full sm:opacity-100 
+        sm:flex-row sm:static sm:bg-[var(--header-bg)]
+        sm:items-center sm:gap-2`}
       >
         {menu.map((item, index) => (
           <button
             key={index}
-            className="w-full
+            className={`w-full
           flex items-center px-3 py-1
           bg-[var(--menu-btn-bg)] text-[var(--menu-fg)] 
           shadow-[var(--menu-shadow)] rounded-xl
           hover:bg-[var(--menu-btn-hover)] hover:text-[var(--menu-fg)]
           active:bg-[var(--menu-btn-hover)] active:text-[var(--menu-fg)]
-          transition-all duration-300 ease-in-out"
+          sm:w-[40px] sm:h-[40px] sm:p-0 sm:bg-[var(--header-bg)] 
+          sm:shadow-[0] sm:rounded-full sm:hover:bg-[var(--header-fg)]
+          sm:active:bg-[var(--header-fg)] sm:hover:text-[var(--header-bg)]
+          sm:active:text-[var(--header-bg)]
+          transition-all duration-300 ease-in-out group`}
             title={item.title}
             onClick={item.click}
           >
-            <p className="font-[federo] text-[20px]">
+            <p className="font-[federo] text-[20px] sm:hidden">
               {item.title}
             </p>
             <i
-              className={`text-[25px] ms-auto ${item.icon}`}
+              className={`text-[25px] ms-auto ${item.icon} 
+              sm:mx-auto sm:ms-0 ${
+                status === item.name && "sm:border-b-2"
+              } group-hover:sm:border-b-0 group-active:sm:border-b-0`}
             ></i>
           </button>
         ))}
