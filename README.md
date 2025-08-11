@@ -11,8 +11,9 @@
 - ➕ Thêm ghi chú.
 - 👁️‍🗨️ Xem một/toàn bộ ghi chú.
 - ✏️ Chỉnh sửa ghi chú.
+- 📂 Lưu trữ ghi chú.
+- 🔄️ Khôi phục ghi chú.
 - 🗑️ Xóa ghi chú.
-- 📂 Quản lý ghi chú theo các mục: Notes, Archive, Trash. _(mới)_.
 - 🌙 Chuyển đổi Dark mode _(mới)_.
 
 ## 🛠 Công nghệ sử dụng
