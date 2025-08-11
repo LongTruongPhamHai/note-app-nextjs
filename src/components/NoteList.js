@@ -40,12 +40,15 @@ export default function NoteList({
         border-[var(--border)] border-1
         bg-[var(--note-bg)] shadow-[var(--note-shadow)]
         hover:bg-[var(--note-bg-hover)]`}
-            onClick={() => toggleForm(item.id, index)}
+            onClick={() => toggleForm(item._id, index)}
           >
-            <div className="note__title flex w-full ps-2 mb-1">
+            <div
+              className="note__title flex w-full 
+            overflow-hidden ps-2 mb-1"
+            >
               <h6
-                className="flex items-center flex-1 min-w-0
-                font-[federo] font-[500] truncate
+                className="min-w-0 me-2 truncate
+                font-[federo] font-[500] text-nowrap
                 text-[var(--note-fg)]
                 transition-all duration-300 ease-in-out"
               >

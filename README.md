@@ -12,29 +12,33 @@
 - 👁️‍🗨️ Xem một/toàn bộ ghi chú.
 - ✏️ Chỉnh sửa ghi chú.
 - 🗑️ Xóa ghi chú.
-- 📂 Quản lý ghi chú theo các mục: Notes, Archive, Trash. *(mới)*.
-- 🌙 Chuyển đổi Dark mode *(mới)*.
+- 📂 Quản lý ghi chú theo các mục: Notes, Archive, Trash. _(mới)_.
+- 🌙 Chuyển đổi Dark mode _(mới)_.
 
 ## 🛠 Công nghệ sử dụng
 
 - **Frontend:** [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Bootstrap Icons](https://icons.getbootstrap.com/).
-- **Backend:** [JSON Server](https://github.com/typicode/json-server).
+- **Backend:** [Node.js](https://nodejs.org/) + [Express.js](https://expressjs.com/) với cơ sở dữ liệu [MongoDB](https://www.mongodb.com/) sử dụng [Mongoose](https://mongoosejs.com/) _(mới)_.
 
 ## ⚡ Hướng dẫn cài đặt và chạy
 
 ### 1️⃣ Clone dự án
 
-```
+```bash
 git clone https://github.com/LongTruongPhamHai/note-app-nextjs.git
 cd note-app-nextjs
 ```
 
-### 2️⃣ Cài đặt và chạy ứng dụng
+### 2️⃣ Cài đặt dependencies
 
+```bash
+npm install
 ```
-npm install                                       # Cài đặt dependencies
-npm run dev                                       # Chạy frontend (http://localhost:3000)
-json-server --watch src/data/db.json --port 5000  # Chạy backend (http://localhost:5000)
+
+### 3️⃣ Chạy ứng dụng
+
+```bash
+npm run dev
 ```
 
 ## 📂 Cấu trúc thư mục
@@ -46,7 +50,12 @@ note-app-nextjs/
 ├── public/
 ├── src/
 │   ├── api/
+│   │   └── notes/
+│   │
 │   ├── app/
+│   │   ├── api/
+│   │   │   └── notes/
+│   │   │
 │   │   ├── home/
 │   │   ├── favicon.ico
 │   │   ├── globals.css
@@ -58,18 +67,34 @@ note-app-nextjs/
 │   │   ├── NoteForm.js
 │   │   └── NoteList.js
 │   │
-│   ├── data/
-│   └── repositories/
-│   
+│   ├── controllers/
+│   │
+│   ├── data/ # (Không sử dụng)
+│   ├── libs/
+│   ├── models/
+│   ├── repositories/
+│   └── utils/
+│
+├── .env.local
+├── .env.local.example
 ├── .gitignore
 ├── eslint.config.mjs
 ├── jsconfig.json
-├── next.config.json
+├── next.config.mjs
 ├── package-lock.json
 ├── package.json
 ├── postcss.config.json
 └── README.md
 ```
+
+## 📡 API chính
+
+- `GET /notes?status=<status>` → Lấy danh sách ghi chú theo các mục.
+- `POST /notes` → Tạo ghi chú mới.
+- `PUT /notes/:id` → Cập nhật ghi chú theo ID.
+- `DELETE /notes/:id` → Xóa ghi chú theo ID.
+
+---
 
 ## 👤 Tác giả
 
@@ -77,5 +102,4 @@ note-app-nextjs/
 
 ---
 
-📌 *Tham khảo thêm:* [Tài liệu triển khai Next.js](https://nextjs.org/docs/app/building-your-application/deploying).
-
+📌 _Tham khảo thêm:_ [Tài liệu triển khai Next.js](https://nextjs.org/docs/app/building-your-application/deploying).

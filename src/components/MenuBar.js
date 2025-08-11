@@ -8,6 +8,7 @@ export default function MenuBar({
   setFormOpen,
   darkMode,
   setDarkMode,
+  onNotesUpdated,
 }) {
   const menu = [
     {
@@ -38,11 +39,25 @@ export default function MenuBar({
       },
     },
     {
+      name: "reload",
+      title: "Reload",
+      icon: "bi bi-arrow-clockwise",
+      click: () => {
+        onNotesUpdated();
+        setMenuOpen(false);
+      },
+    },
+    {
       title: `Switch to ${
         darkMode ? "light" : "dark"
       } mode`,
       icon: `${darkMode ? "bi bi-sun" : "bi bi-moon"}`,
-      click: () => setDarkMode((prev) => !prev),
+      click: () =>
+        setDarkMode((prev) => {
+          const newValue = !prev;
+          localStorage.setItem("DarkMode", newValue);
+          return newValue;
+        }),
     },
   ];
 
@@ -81,24 +96,24 @@ export default function MenuBar({
             ? "max-h-full p-3 opacity-100"
             : "max-h-0 p-0 opacity-0"
         }
-        sm:max-h-full sm:opacity-100 
-        sm:flex-row sm:static sm:bg-[var(--header-bg)]
+        sm:max-h-full sm:opacity-100 sm:w-full
+        sm:flex-row sm:static sm:bg-transparent
         sm:items-center sm:gap-2`}
       >
         {menu.map((item, index) => (
           <button
             key={index}
-            className={`w-full
-          flex items-center px-3 py-1
-          bg-[var(--menu-btn-bg)] text-[var(--menu-fg)] 
-          shadow-[var(--menu-shadow)] rounded-xl
+            className={`w-full flex items-center px-3 py-1 rounded-xl
+          bg-[var(--menu-btn-bg)] shadow-[var(--menu-shadow)] group
+          text-[var(--menu-fg)] transition-all duration-300 ease-in-out
           hover:bg-[var(--menu-btn-hover)] hover:text-[var(--menu-fg)]
           active:bg-[var(--menu-btn-hover)] active:text-[var(--menu-fg)]
           sm:w-[40px] sm:h-[40px] sm:p-0 sm:bg-[var(--header-bg)] 
           sm:shadow-[0] sm:rounded-full sm:hover:bg-[var(--header-fg)]
           sm:active:bg-[var(--header-fg)] sm:hover:text-[var(--header-bg)]
-          sm:active:text-[var(--header-bg)]
-          transition-all duration-300 ease-in-out group`}
+          sm:active:text-[var(--header-bg)] 
+          ${item.name === "reload" && "ms-auto"}
+          `}
             title={item.title}
             onClick={item.click}
           >

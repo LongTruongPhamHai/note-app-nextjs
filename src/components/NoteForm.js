@@ -1,18 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  createNote,
-  getNoteById,
-  updateNote,
-  deleteNote,
-} from "@/repositories/NoteRepository";
+import axiosClient from "@/utils/axiosClient";
 
 export default function NoteForm({
   noteId,
   action,
-  bgColor,
-  setBgColor,
   setAction,
   setNoteId,
   setFormOpen,
@@ -28,12 +21,6 @@ export default function NoteForm({
     message: "On progress...",
   });
   const [isConfirmOpen, setConfirmOpen] = useState(false);
-  const formBtns = [
-    {
-      title: "Save",
-      icon: "bi bi-check2-square",
-    },
-  ];
 
   useEffect(() => {
     if (noteId !== "") {
@@ -50,16 +37,27 @@ export default function NoteForm({
   }
 
   async function getNoteData(noteId) {
-    const note = await getNoteById(noteId);
-    if (note) setNoteData(note);
+    if (!noteId) return;
+
+    try {
+      const res = await axiosClient.get(
+        `/notes?id=${noteId}`
+      );
+
+      if (res) setNoteData(res.data);
+    } catch (err) {
+      console.error("Fetch note failed! Error: ", err);
+    }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     if (action === "create") {
       try {
-        const res = await createNote(noteData);
+        const res = await axiosClient.post(
+          "/notes",
+          noteData
+        );
         setResult({
           status: "success",
           message: "Add new note successful!",
@@ -78,23 +76,56 @@ export default function NoteForm({
       }
     } else if (action === "update") {
       try {
-        await updateNote(noteId, noteData);
+        const res = await axiosClient.put(
+          `/notes?id=${noteId}`,
+          noteData
+        );
         setResult({
           status: "success",
-          message: `Update note #${noteId} successful!`,
+          message: `Update note ${noteData.title} successful!`,
         });
         onNotesUpdated();
-        setAction("update");
       } catch (error) {
         setResult({
           status: "failed",
-          message: `Update note #${noteId} failed!`,
+          message: `Update note ${noteData.title} failed!`,
         });
         console.error(
-          `Update note #${noteId} failed! Error: `,
+          `Update note ${noteData.title} failed! Error: `,
           error
         );
       }
+    }
+  }
+
+  async function updateNoteStatus(
+    noteId,
+    newStatus,
+    successMessage
+  ) {
+    const updatedData = { ...noteData, status: newStatus };
+    setNoteData(updatedData);
+
+    try {
+      await axiosClient.put(
+        `/notes?id=${noteId}`,
+        updatedData
+      );
+      setResult({
+        status: "success",
+        message: successMessage,
+      });
+      onNotesUpdated();
+      getNoteData(noteId);
+    } catch (error) {
+      setResult({
+        status: "failed",
+        message: `Update note ${noteData.title} failed!`,
+      });
+      console.error(
+        `Update note ${noteData.title} failed! Error: `,
+        error
+      );
     }
   }
 
@@ -113,57 +144,24 @@ export default function NoteForm({
         ? "Restore"
         : "Archive";
 
-    const updatedData = { ...noteData, status: newStt };
-    setNoteData(updatedData);
-
-    try {
-      await updateNote(noteId, updatedData);
-      setResult({
-        status: "success",
-        message: `${newMes} note #${noteId} successful!`,
-      });
-      onNotesUpdated();
-      setAction("update");
-      getNoteData(noteId);
-    } catch (error) {
-      setResult({
-        status: "failed",
-        message: `Update note #${noteId} failed!`,
-      });
-      console.error(
-        `Update note #${noteId} failed! Error: `,
-        error
-      );
-    }
+    updateNoteStatus(
+      noteId,
+      newStt,
+      `${newMes} note ${noteData.title} successful!`
+    );
   }
 
-  async function handleTrash(noteId) {
-    const updatedData = { ...noteData, status: "trash" };
-    setNoteData(updatedData);
-    try {
-      await updateNote(noteId, updatedData);
-      setResult({
-        status: "success",
-        message: `Note #${noteId} has been moved to trash!`,
-      });
-      onNotesUpdated();
-      setAction("update");
-      getNoteData(noteId);
-    } catch (error) {
-      setResult({
-        status: "failed",
-        message: `Update note #${noteId} failed!`,
-      });
-      console.error(
-        `Update note #${noteId} failed! Error: `,
-        error
-      );
-    }
+  function handleTrash(noteId) {
+    updateNoteStatus(
+      noteId,
+      "trash",
+      `Note ${noteData.title} has been moved to trash!`
+    );
   }
 
   async function handleDelete() {
     try {
-      await deleteNote(noteId);
+      await axiosClient.delete(`/notes?id=${noteId}`);
       onNotesUpdated();
       closeForm();
     } catch {
@@ -184,7 +182,6 @@ export default function NoteForm({
       content: "",
       status: "progress",
     });
-    setBgColor("");
   }
 
   return (
@@ -195,13 +192,14 @@ export default function NoteForm({
     >
       <form onSubmit={handleSubmit}>
         <div className="flex items-center px-2 py-1">
-          <div>
+          <div className="w-full overflow-hidden">
             <h3
-              className="font-[federo]
-        flex items-center text-[25px] text-[var(--form-fg)]"
+              className="font-[federo] text-[var(--form-fg)] 
+              text-nowrapflex items-center text-[25px] truncate me-2"
             >
               {action === "create" && `New note`}
-              {action === "update" && `Note #${noteId}`}
+              {action === "update" &&
+                `Note ${noteData.title}`}
             </h3>
 
             <p

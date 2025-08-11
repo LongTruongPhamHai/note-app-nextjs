@@ -1,10 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  getNotes,
-  getNoteByStatus,
-} from "@/repositories/NoteRepository";
+import axiosClient from "@/utils/axiosClient";
 
 import NoteList from "@/components/NoteList";
 import NoteForm from "@/components/NoteForm";
@@ -19,18 +16,30 @@ export default function Home() {
   const [bgColor, setBgColor] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [status, setStatus] = useState("progress");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const saved =
+      localStorage.getItem("DarkMode") === "true";
+    setDarkMode(saved);
+  }, []);
 
   useEffect(() => {
     fetchNotes();
   }, [status]);
 
   async function fetchNotes() {
+    setLoading(true);
     try {
-      setNotes([]);
-      const noteList = await getNoteByStatus(status);
-      if (noteList) setNotes(noteList);
+      const res = await axiosClient.get(
+        `/notes?status=${status}`
+      );
+
+      if (res) setNotes(res.data);
     } catch (err) {
       console.error("Fetch notes failed! Error: ", err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -71,8 +80,8 @@ export default function Home() {
         )}
 
         <div
-          className="absolute left-[5px] bottom-[0px]
-        sm:right-[15px] sm:left-auto sm:w-fit sm: h-full"
+          className="absolute left-[5px] bottom-[0.1px]
+        sm:right-[15px] sm:left-[15px] h-full"
         >
           <MenuBar
             status={status}
@@ -82,6 +91,7 @@ export default function Home() {
             setStatus={setStatus}
             darkMode={darkMode}
             setDarkMode={setDarkMode}
+            onNotesUpdated={fetchNotes}
           />
         </div>
       </div>
@@ -114,7 +124,7 @@ export default function Home() {
         flex items-center justify-center 
         font-[federo] text-[30px] text-[var(--body-fg)]"
           >
-            No notes yet!
+            {loading ? "Loading data..." : "No notes yet!"}
           </div>
         )}
 
